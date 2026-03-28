@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EndBeaconMemoGenerator</title>
+    <link rel="icon" type="image/png" href="./YELLOW/好东西.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">EndBeaconMemoGenerator</p>
+          <h1>EndBeacon 表情包生成器</h1>
+          <p class="subtitle">
+            选最多 3 张素材左右拼接，默认加入下方字段，并导出透明底或黑底 PNG。
+          </p>
+        </div>
+      </header>
+
+      <main class="main-layout">
+        <section class="editor-panel panel">
+          <div class="panel-header">
+            <h2>编辑区</h2>
+            <p>先选风格，再选素材，实时预览最终成品。</p>
+          </div>
+
+          <div class="controls-grid">
+            <section class="control-card">
+              <h3>图片样式</h3>
+              <div class="segmented" id="styleToggle">
+                <button type="button" class="segmented-btn" data-style="YELLOW">YELLOW</button>
+                <button type="button" class="segmented-btn" data-style="GREY">GREY</button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <h3>导出背景</h3>
+              <div class="segmented" id="backgroundToggle">
+                <button type="button" class="segmented-btn" data-background="transparent">透明底</button>
+                <button type="button" class="segmented-btn" data-background="black">黑底</button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <h3>下方字段</h3>
+              <div class="segmented" id="captionToggle">
+                <button type="button" class="segmented-btn" data-caption-enabled="false">不加入</button>
+                <button type="button" class="segmented-btn" data-caption-enabled="true">插入字段</button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <h3>字段颜色</h3>
+              <div class="segmented" id="captionColorToggle">
+                <button type="button" class="segmented-btn" data-caption-color="yellow">黄色</button>
+                <button type="button" class="segmented-btn" data-caption-color="grey">灰色</button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <div class="slider-header">
+                <h3>字段字号</h3>
+                <span class="slider-value" id="captionFontSizeValue">72 px</span>
+              </div>
+              <input
+                type="range"
+                id="captionFontSizeInput"
+                min="36"
+                max="96"
+                step="2"
+                value="72"
+              />
+            </section>
+
+            <section class="control-card">
+              <div class="slider-header">
+                <h3>字段纵向位置</h3>
+                <span class="slider-value" id="captionOffsetValue">居中</span>
+              </div>
+              <div class="offset-actions">
+                <button type="button" class="action-btn secondary" id="captionOffsetUpBtn">上移</button>
+                <button type="button" class="action-btn secondary" id="captionOffsetResetBtn">回中</button>
+                <button type="button" class="action-btn secondary" id="captionOffsetDownBtn">下移</button>
+              </div>
+            </section>
+          </div>
+
+          <section class="selection-card control-card">
+            <div class="selection-header">
+              <div>
+                <h3>当前已选</h3>
+                <p>按点击顺序从左到右拼接，最多 3 张。</p>
+              </div>
+              <span class="selection-count" id="selectionCount">0 / 3</span>
+            </div>
+            <div class="selected-tags" id="selectedTags"></div>
+          </section>
+
+          <section class="preview-card control-card">
+            <div class="preview-header">
+              <div>
+                <h3>预览</h3>
+                <p>复制、下载结果与此处预览一致。</p>
+              </div>
+              <p class="download-name" id="downloadName">下载文件名：EndBeaconMemoGenerator.png</p>
+            </div>
+
+            <div class="preview-stage" id="previewStage">
+              <div class="preview-placeholder" id="previewPlaceholder">
+                请选择 1 到 3 张图片开始生成表情包
+              </div>
+              <canvas id="previewCanvas" class="preview-canvas" aria-label="表情包预览"></canvas>
+            </div>
+
+            <label class="caption-editor hidden" id="captionEditor">
+              <span>下方字段内容</span>
+              <textarea
+                id="captionInput"
+                rows="3"
+                placeholder="例如：“上面危险需要”"
+              ></textarea>
+              <small>未手动修改前，会随所选图片自动生成；手动修改后可用“重置字段”恢复。</small>
+            </label>
+
+            <div class="action-row">
+              <button type="button" class="action-btn secondary" id="clearSelectionBtn">清空选择</button>
+              <button type="button" class="action-btn secondary" id="resetCaptionBtn">重置字段</button>
+              <button type="button" class="action-btn secondary" id="copyBtn">复制预览图</button>
+              <button type="button" class="action-btn primary" id="downloadBtn">下载 PNG</button>
+            </div>
+
+            <p class="status-message" id="statusMessage" aria-live="polite"></p>
+          </section>
+        </section>
+
+        <aside class="library-panel panel">
+          <div class="panel-header">
+            <h2>素材展示</h2>
+            <p>点击图片进行选择或取消，图片下方会显示对应名称。</p>
+          </div>
+          <div class="gallery-grid" id="galleryGrid"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
